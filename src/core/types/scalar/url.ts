@@ -15,6 +15,8 @@ export const urlCodec = withMessage(
   () => 'Invalid URL',
 )
 
+export type Url = t.TypeOf<typeof urlCodec>
+
 function isUrl (input: unknown) {
   try {
     const url = new URL(typeof input === 'string' ? input : '')

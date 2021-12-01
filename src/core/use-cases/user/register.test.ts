@@ -2,7 +2,7 @@
 import { CreateUser } from '@/core/types/user'
 import { register, OutsideRegister } from './register'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { unsafeEmail, mapAll } from '@/config/tests/fixtures'
+import { unsafeEmail, mapAllTE } from '@/config/tests/fixtures'
 
 const registerOk: OutsideRegister<string> = async (data) => {
   return `User is registered ${data.email}`
@@ -18,6 +18,6 @@ it('should register a user succesfully', async () => {
   return pipe(
     data,
     register(registerOk),
-    mapAll(result => expect(result).toBe(`User is registered ${data.email}`)),
+    mapAllTE(result => expect(result).toBe(`User is registered ${data.email}`)),
   )()
 })

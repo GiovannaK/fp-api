@@ -1,19 +1,20 @@
-import { Email } from './email'
+import { emailCodec } from './email'
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 
 it('Should validate email correctly', () => {
   pipe(
     'john@doe.com',
-    Email.decode,
+    emailCodec.decode,
     E.map(result => expect(result).toBe('john@doe.com')),
+    E.mapLeft(result => expect(result).toBe('john@doe.com')),
   )
 })
 
 it('Should return error when email is invalid', () => {
   pipe(
     'Invalid-email',
-    Email.decode,
+    emailCodec.decode,
     E.mapLeft(error => expect(error[0]?.message).toBe('Invalid email')),
   )
 })

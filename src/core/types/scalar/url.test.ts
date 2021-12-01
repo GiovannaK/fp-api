@@ -15,6 +15,9 @@ it('Should return error when url is invalid', () => {
   pipe(
     'Invalid-url',
     urlCodec.decode,
-    /* mapAllE(error => expect(error[0]?.message).toBe('Invalid email')), */
+    mapAllE(error => {
+      const errorMessage = Array.isArray(error) ? error[0]?.message : ''
+      expect(errorMessage).toBe('Invalid URL')
+    }),
   )
 })

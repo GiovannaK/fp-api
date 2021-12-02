@@ -1,8 +1,9 @@
 import * as t from 'io-ts'
+import { slugCodec, urlCodec } from './scalar'
 
 export const profileCodec = t.type({
-  username: t.string,
-  image: t.string,
+  username: slugCodec,
+  image: urlCodec,
   bio: t.string,
   following: t.boolean,
 })

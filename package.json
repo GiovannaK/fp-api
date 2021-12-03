@@ -21,7 +21,9 @@
     "ci": "yarn lint && yarn type-check && yarn test"
   },
   "dependencies": {
+    "@types/express": "^4.17.13",
     "dotenv": "8.2.0",
+    "express": "^4.17.1",
     "fp-ts": "2.9.5",
     "io-ts": "^2.2.16",
     "io-ts-types": "0.5.16",

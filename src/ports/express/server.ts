@@ -1,24 +1,18 @@
 import express, { Request, Response } from 'express'
-import { register, OutsideRegisterType } from '@/adapters/user/register-adapter'
+import { register } from '@/adapters/user/register-adapter'
 import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/TaskEither'
+import { userRegister } from '@/adapters/ports/db/db'
 const app = express()
-const PORT = 3333
+const PORT = process.env.PORT || 4000
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-const outsideRegister: OutsideRegisterType = async (data) => {
-  return {
-    success: true,
-    data,
-  }
-}
-
 app.post('/api/users', (req: Request, res: Response) => {
   return pipe(
     req.body.user,
-    register(outsideRegister),
+    register(userRegister),
     TE.map(result => res.json(result)),
     TE.mapLeft(error => res.status(400).json({ error: error.message })),
   )()

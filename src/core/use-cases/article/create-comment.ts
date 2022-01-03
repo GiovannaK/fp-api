@@ -1,18 +1,30 @@
 import * as TE from 'fp-ts/TaskEither'
 import * as E from 'fp-ts/Either'
-import { CreateComment } from '@/core/types/comment'
+import { CreateComment, createCommentCodec } from '@/core/types/comment'
 import { pipe } from 'fp-ts/function'
+import { failure } from 'io-ts/PathReporter'
 
 type OutsideCreateComment<A> = (data: CreateComment) => Promise<A>
 
 type AddCommentToAnArticle = <A>(o: OutsideCreateComment<A>) => (data: CreateComment) =>
   TE.TaskEither<Error, A>
 
-export const addComentToAnArticle: AddCommentToAnArticle = (outsideCreateComment) => (data) => {
+export const addComentToAnArticle: AddCommentToAnArticle = (outsideCreateComment) => (data: CreateComment) => {
   return pipe(
-    TE.tryCatch(
+    data,
+    validateComment,
+    TE.fromEither,
+    TE.chain((data) => TE.tryCatch(
       () => outsideCreateComment(data),
       E.toError,
-    ),
+    )),
+  )
+}
+
+type ValidateComment = (data: CreateComment) => E.Either<Error, CreateComment>
+const validateComment: ValidateComment = (data) => {
+  return pipe(
+    createCommentCodec.decode(data),
+    E.mapLeft(errors => new Error(failure(errors).join(':::'))),
   )
 }

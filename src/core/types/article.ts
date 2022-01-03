@@ -4,7 +4,7 @@ import * as t from 'io-ts'
 import { withMessage } from 'io-ts-types'
 import { slugCodec, dateCodec, positiveCodec } from './scalar'
 
-export const articleCodec = t.type({
+export const articleCodecRequired = t.type({
   slug: slugCodec,
   title: t.string,
   description: t.string,
@@ -14,8 +14,18 @@ export const articleCodec = t.type({
   updateAt: dateCodec,
   favorited: t.boolean,
   favoritesCount: positiveCodec,
+})
+
+const articleCodecOptional = t.partial({
   author: profileCodec,
 })
+
+export const articleCodec = t.intersection([
+  articleCodecRequired,
+  articleCodecOptional,
+])
+
+export type ArticleOutput = t.OutputOf<typeof articleCodec>
 
 export type Article = t.TypeOf<typeof articleCodec>
 

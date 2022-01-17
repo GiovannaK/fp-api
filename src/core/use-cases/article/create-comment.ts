@@ -4,9 +4,9 @@ import { CreateComment, createCommentCodec } from '@/core/types/comment'
 import { pipe } from 'fp-ts/function'
 import { failure } from 'io-ts/PathReporter'
 
-type OutsideCreateComment<A> = (data: CreateComment) => Promise<A>
+export type OutsideCreateComment<A> = (data: CreateComment) => Promise<A>
 
-type AddCommentToAnArticle = <A>(o: OutsideCreateComment<A>) => (data: CreateComment) =>
+export type AddCommentToAnArticle = <A>(o: OutsideCreateComment<A>) => (data: CreateComment) =>
   TE.TaskEither<Error, A>
 
 export const addComentToAnArticle: AddCommentToAnArticle = (outsideCreateComment) => (data: CreateComment) => {

@@ -1,6 +1,7 @@
 import { OutsideRegisterType } from '@/adapters/user/register-adapter'
 import { OutsideRegisterType as OutsideRegisterArticleType } from '@/adapters/use-cases/article/register-article-adapter'
 import slugify from 'slugify'
+import { OutsideCreateCommentType } from '@/adapters/use-cases/article/add-comment-to-an-article-adapter'
 
 export const outsideRegister: OutsideRegisterType = async (data) => {
   return {
@@ -27,6 +28,17 @@ export const outsideRegisterArticle: OutsideRegisterArticleType = async (data) =
       updatedAt: date,
       favorited: false,
       favoritesCount: 0,
+    },
+  }
+}
+
+export const outsideCreateComment: OutsideCreateCommentType = async (data) => {
+  return {
+    comment: {
+      id: 1,
+      createdAt: '2016-02-18T03:22:56.637Z',
+      updatedAt: '2016-02-18T03:22:56.637Z',
+      body: 'sjdhjd',
     },
   }
 }

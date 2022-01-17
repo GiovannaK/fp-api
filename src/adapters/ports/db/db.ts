@@ -1,6 +1,6 @@
 import { OutsideRegisterType } from '@/adapters/user/register-adapter'
 import { OutsideRegisterType as OutsideRegisterArticleType } from '@/adapters/use-cases/article/register-article-adapter'
-import { outsideRegister, outsideRegisterArticle } from '@/ports/db-in-memory/db'
+import { outsideCreateComment, outsideRegister, outsideRegisterArticle } from '@/ports/db-in-memory/db'
 import { OutsideCreateCommentType } from '@/adapters/use-cases/article/add-comment-to-an-article-adapter'
 
 export const userRegister: OutsideRegisterType = (data) => {

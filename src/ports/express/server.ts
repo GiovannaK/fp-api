@@ -5,12 +5,27 @@ import * as TE from 'fp-ts/TaskEither'
 import { userRegister, articleRegister, addComentToAnArticleInDB } from '@/adapters/ports/db/db'
 import { registerArticle } from '@/core/use-cases/article/register-article'
 import { addCommentToAnArticle } from '@/adapters/use-cases/article/add-comment-to-an-article-adapter'
+import * as jose from 'jose'
+
+async function createJwt () {
+  const { privateKey } = await jose.generateKeyPair('ES256')
+  const jwt = await new jose.SignJWT({ id: '123' })
+    .setProtectedHeader({ alg: 'ES256' })
+    .setExpirationTime('10m')
+    .sign(privateKey)
+}
+
+createJwt()
 
 const app = express()
 const PORT = process.env.PORT || 4000
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+app
+  .disable('x-powered-by')
+  .disable('etag')
 
 app.post('/api/users', async (req: Request, res: Response) => {
   return pipe(
